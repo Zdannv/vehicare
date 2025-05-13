@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import 'maintenance_guides_router.dart';
 
 class TipsAndGuidesScreen extends StatelessWidget {
   const TipsAndGuidesScreen({super.key});
@@ -23,7 +26,10 @@ class TipsAndGuidesScreen extends StatelessWidget {
                         end: Alignment.bottomCenter,
                         colors: [
                           Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.primary.withOpacity(0.8),
+                          Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.8),
                         ],
                       ),
                     ),
@@ -51,16 +57,17 @@ class TipsAndGuidesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildFeaturedTip(context)
-                    .animate()
-                    .fadeIn(duration: 600.ms)
-                    .slideY(begin: 0.2, end: 0),
+                      .animate()
+                      .fadeIn(duration: 600.ms)
+                      .slideY(begin: 0.2, end: 0),
                   const SizedBox(height: 24),
                   Text(
                     'Panduan Perawatan',
                     style: Theme.of(context).textTheme.titleLarge,
                   ).animate().fadeIn(delay: 200.ms),
                   const SizedBox(height: 16),
-                  _buildMaintenanceGuides(context),
+                  buildMaintenanceGuides(
+                      context), // Using the updated function from maintenance_guides_router.dart
                   const SizedBox(height: 24),
                   Text(
                     'Tips Penting',
@@ -107,7 +114,10 @@ class TipsAndGuidesScreen extends StatelessWidget {
                       Text(
                         'Tips Minggu Ini',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.9),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimary
+                              .withOpacity(0.9),
                           fontSize: 14,
                         ),
                       ),
@@ -134,12 +144,14 @@ class TipsAndGuidesScreen extends StatelessWidget {
             const SizedBox(height: 16),
             OutlinedButton(
               onPressed: () {
-                // TODO: Navigate to fuel saving tips
+                // Navigate to fuel saving tips
+                // Could be implemented in a future enhancement
               },
               style: OutlinedButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 side: BorderSide(
-                  color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
+                  color:
+                      Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
                 ),
               ),
               child: const Text('Baca Selengkapnya'),
@@ -147,66 +159,6 @@ class TipsAndGuidesScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildMaintenanceGuides(BuildContext context) {
-    final guides = [
-      {
-        'title': 'Perawatan Ban',
-        'subtitle': 'Panduan lengkap merawat ban',
-        'icon': Icons.tire_repair,
-        'color': Colors.blue,
-      },
-      {
-        'title': 'Ganti Oli',
-        'subtitle': 'Kapan harus ganti oli',
-        'icon': Icons.oil_barrel,
-        'color': Colors.orange,
-      },
-      {
-        'title': 'Aki Mobil',
-        'subtitle': 'Cara merawat aki',
-        'icon': Icons.battery_charging_full,
-        'color': Colors.green,
-      },
-      {
-        'title': 'Rem',
-        'subtitle': 'Perawatan sistem rem',
-        'icon': Icons.report_problem,
-        'color': Colors.red,
-      },
-    ];
-
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: guides.length,
-      itemBuilder: (context, index) {
-        final guide = guides[index];
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          child: ListTile(
-            leading: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: (guide['color'] as Color).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                guide['icon'] as IconData,
-                color: guide['color'] as Color,
-              ),
-            ),
-            title: Text(guide['title'] as String),
-            subtitle: Text(guide['subtitle'] as String),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {
-              // TODO: Navigate to guide detail
-            },
-          ),
-        ).animate(delay: (100 * index).ms).fadeIn().slideX();
-      },
     );
   }
 
@@ -302,4 +254,4 @@ class TipsAndGuidesScreen extends StatelessWidget {
       },
     );
   }
-} 
+}
