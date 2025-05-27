@@ -142,6 +142,20 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
     } catch (e) {
       debugPrint(e.toString());
     }
+    if (_currentPosition != null) {
+      setState(() {
+        _markers.add(
+          Marker(
+            markerId: const MarkerId('user_position'),
+            position:
+                LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueAzure),
+            infoWindow: const InfoWindow(title: 'Posisi Anda'),
+          ),
+        );
+      });
+    }
   }
 
   Future<void> _loadNearbyBengkel() async {
@@ -176,9 +190,11 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
             Container(
               height: 150,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12)),
                 image: DecorationImage(
-                  image: NetworkImage('https://picsum.photos/seed/${bengkel['id']}/400/200'),
+                  image: NetworkImage(
+                      'https://picsum.photos/seed/${bengkel['id']}/400/200'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -189,7 +205,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                       top: 12,
                       left: 12,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(12),
@@ -197,7 +214,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.verified, color: Colors.white, size: 16),
+                            const Icon(Icons.verified,
+                                color: Colors.white, size: 16),
                             const SizedBox(width: 4),
                             Text(
                               'Bengkel Resmi ${bengkel['brand'] ?? ''}',
@@ -215,7 +233,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                     top: 12,
                     right: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: bengkel['isOpen'] ? Colors.green : Colors.red,
                         borderRadius: BorderRadius.circular(12),
@@ -277,7 +296,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                         style: TextStyle(color: Colors.grey[600], fontSize: 14),
                       ),
                       const SizedBox(width: 16),
-                      Icon(Icons.location_on, size: 16, color: Theme.of(context).primaryColor),
+                      Icon(Icons.location_on,
+                          size: 16, color: Theme.of(context).primaryColor),
                       Text(
                         ' ${bengkel['distance']}',
                         style: const TextStyle(fontWeight: FontWeight.w500),
@@ -287,7 +307,9 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
-                    children: (bengkel['services'] as List<String>).take(2).map((service) {
+                    children: (bengkel['services'] as List<String>)
+                        .take(2)
+                        .map((service) {
                       return Chip(
                         label: Text(
                           service,
@@ -296,7 +318,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                             color: Theme.of(context).primaryColor,
                           ),
                         ),
-                        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                        backgroundColor:
+                            Theme.of(context).primaryColor.withOpacity(0.1),
                         padding: EdgeInsets.zero,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       );
@@ -335,9 +358,11 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                     Container(
                       height: 200,
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(20)),
                         image: DecorationImage(
-                          image: NetworkImage('https://picsum.photos/seed/${bengkel['id']}/400/200'),
+                          image: NetworkImage(
+                              'https://picsum.photos/seed/${bengkel['id']}/400/200'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -374,9 +399,11 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: bengkel['isOpen'] ? Colors.green : Colors.red,
+                              color:
+                                  bengkel['isOpen'] ? Colors.green : Colors.red,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
@@ -441,10 +468,12 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: (bengkel['services'] as List<String>).map((service) {
+                        children: (bengkel['services'] as List<String>)
+                            .map((service) {
                           return Chip(
                             label: Text(service),
-                            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                            backgroundColor:
+                                Theme.of(context).primaryColor.withOpacity(0.1),
                           );
                         }).toList(),
                       ),
@@ -459,7 +488,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                               icon: const Icon(Icons.directions),
                               label: const Text('Petunjuk Arah'),
                               style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
                               ),
                             ),
                           ),
@@ -472,7 +502,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
                               icon: const Icon(Icons.phone),
                               label: const Text('Hubungi'),
                               style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
                               ),
                             ),
                           ),
@@ -587,12 +618,15 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
     // Filter bengkel based on selected filter
     List<Map<String, dynamic>> filteredBengkel = bengkelData.where((bengkel) {
       if (_selectedFilter == 'Semua') return true;
-      if (_selectedFilter == 'Bengkel Resmi') return bengkel['isOfficial'] == true;
-      if (_selectedFilter == 'Bengkel Umum') return bengkel['isOfficial'] == false;
+      if (_selectedFilter == 'Bengkel Resmi')
+        return bengkel['isOfficial'] == true;
+      if (_selectedFilter == 'Bengkel Umum')
+        return bengkel['isOfficial'] == false;
       if (_selectedFilter == 'Mobil') return bengkel['type'] == 'Mobil';
       if (_selectedFilter == 'Motor') return bengkel['type'] == 'Motor';
       if (_selectedFilter == '24 Jam') return bengkel['openHours'] == '24 Jam';
-      if (_selectedFilter == 'Rating 4+') return (bengkel['rating'] as double) >= 4.0;
+      if (_selectedFilter == 'Rating 4+')
+        return (bengkel['rating'] as double) >= 4.0;
       if (_selectedFilter == '1 KM') {
         double distance = double.parse(bengkel['distance'].split(' ')[0]);
         return distance <= 1.0;
@@ -603,16 +637,17 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          if (_isListView)
-            ListView.builder(
+          _isListView
+          ? ListView.builder(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top + 140,
                 bottom: 16,
               ),
               itemCount: filteredBengkel.length,
-              itemBuilder: (context, index) => _buildBengkelListItem(filteredBengkel[index]),
+              itemBuilder: (context, index) =>
+                  _buildBengkelListItem(filteredBengkel[index]),
             )
-          else
+          :
             GoogleMap(
               mapType: MapType.normal,
               initialCameraPosition: _jakarta,
@@ -665,7 +700,8 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
         position: bengkel['position'],
         infoWindow: InfoWindow(
           title: bengkel['name'],
-          snippet: '${bengkel['rating']}⭐ • ${bengkel['type']}${bengkel['isOfficial'] ? ' • Resmi' : ''}',
+          snippet:
+              '${bengkel['rating']}⭐ • ${bengkel['type']}${bengkel['isOfficial'] ? ' • Resmi' : ''}',
         ),
         onTap: () {
           _showBengkelDetail(bengkel);
@@ -673,4 +709,4 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
       );
     }).toSet();
   }
-} 
+}
