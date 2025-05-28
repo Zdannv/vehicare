@@ -7,6 +7,69 @@ import 'maintenance_guides_router.dart';
 class TipsAndGuidesScreen extends StatelessWidget {
   const TipsAndGuidesScreen({super.key});
 
+  // Daftar tips mingguan yang akan berputar setiap 7 hari
+  static const List<Map<String, dynamic>> _weeklyTips = [
+    {
+      'title': 'Cara Menghemat Bahan Bakar',
+      'description':
+          'Pelajari cara menghemat bahan bakar dengan tips dan trik yang efektif',
+      'icon': Icons.local_gas_station,
+      'tips': [
+        'Gunakan kecepatan konstan 60-80 km/jam',
+        'Hindari akselerasi dan pengereman mendadak',
+        'Matikan AC saat parkir',
+        'Periksa tekanan ban secara rutin'
+      ]
+    },
+    {
+      'title': 'Perawatan Filter Udara',
+      'description':
+          'Tips menjaga filter udara agar performa mesin tetap optimal',
+      'icon': Icons.air,
+      'tips': [
+        'Periksa filter udara setiap 10.000 km',
+        'Bersihkan dengan kompresor angin',
+        'Ganti filter jika sudah kotor atau rusak',
+        'Hindari berkendara di jalan berdebu'
+      ]
+    },
+    {
+      'title': 'Perawatan Sistem Pendingin',
+      'description':
+          'Menjaga suhu mesin tetap stabil dengan perawatan radiator',
+      'icon': Icons.ac_unit,
+      'tips': [
+        'Periksa level air radiator setiap pagi',
+        'Gunakan coolant berkualitas baik',
+        'Bersihkan kisi-kisi radiator dari kotoran',
+        'Ganti air radiator setiap 40.000 km'
+      ]
+    },
+    {
+      'title': 'Perawatan Sistem Kelistrikan',
+      'description': 'Tips menjaga sistem kelistrikan kendaraan tetap prima',
+      'icon': Icons.electrical_services,
+      'tips': [
+        'Periksa tegangan aki secara berkala',
+        'Bersihkan terminal aki dari korosi',
+        'Periksa kondisi kabel-kabel kelistrikan',
+        'Ganti sekring yang putus dengan amperage sama'
+      ]
+    }
+  ];
+
+  // Function untuk mendapatkan tips berdasarkan minggu
+  Map<String, dynamic> _getCurrentWeeklyTip() {
+    final now = DateTime.now();
+    // Hitung minggu ke berapa dalam tahun (dimulai dari 1 Januari)
+    final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
+    final weekOfYear = (dayOfYear / 7).floor();
+
+    // Gunakan modulo untuk cycling tips setiap 4 minggu
+    final tipIndex = weekOfYear % _weeklyTips.length;
+    return _weeklyTips[tipIndex];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,8 +129,7 @@ class TipsAndGuidesScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ).animate().fadeIn(delay: 200.ms),
                   const SizedBox(height: 16),
-                  buildMaintenanceGuides(
-                      context), // Using the updated function from maintenance_guides_router.dart
+                  buildMaintenanceGuides(context),
                   const SizedBox(height: 24),
                   Text(
                     'Tips Penting',
@@ -85,6 +147,8 @@ class TipsAndGuidesScreen extends StatelessWidget {
   }
 
   Widget _buildFeaturedTip(BuildContext context) {
+    final currentTip = _getCurrentWeeklyTip();
+
     return Card(
       color: Theme.of(context).colorScheme.primary,
       child: Padding(
@@ -101,7 +165,7 @@ class TipsAndGuidesScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
-                    Icons.auto_awesome,
+                    currentTip['icon'] as IconData,
                     size: 32,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
@@ -123,7 +187,7 @@ class TipsAndGuidesScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Cara Menghemat Bahan Bakar',
+                        currentTip['title'] as String,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary,
                               fontWeight: FontWeight.bold,
@@ -136,7 +200,7 @@ class TipsAndGuidesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Pelajari cara menghemat bahan bakar dengan tips dan trik yang efektif',
+              currentTip['description'] as String,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.9),
               ),
@@ -144,8 +208,7 @@ class TipsAndGuidesScreen extends StatelessWidget {
             const SizedBox(height: 16),
             OutlinedButton(
               onPressed: () {
-                // Navigate to fuel saving tips
-                // Could be implemented in a future enhancement
+                _showTipDetailsDialog(context, currentTip);
               },
               style: OutlinedButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -159,6 +222,119 @@ class TipsAndGuidesScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showTipDetailsDialog(BuildContext context, Map<String, dynamic> tip) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        tip['icon'] as IconData,
+                        size: 32,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        tip['title'] as String,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  tip['description'] as String,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Tips Detail:',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 12),
+                ...(tip['tips'] as List<String>).asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final tipText = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 2),
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${index + 1}',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            tipText,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Tutup'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ).animate().scale(
+              begin: const Offset(0.8, 0.8),
+              duration: 200.ms,
+              curve: Curves.easeOutBack,
+            );
+      },
     );
   }
 

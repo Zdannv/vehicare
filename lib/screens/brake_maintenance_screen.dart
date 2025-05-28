@@ -75,7 +75,8 @@ class BrakeMaintenanceScreen extends StatelessWidget {
         'Jangan mencampur jenis minyak rem yang berbeda',
         'Selalu kuras udara dari sistem rem setelah perbaikan'
       ],
-      videoUrl: 'https://example.com/brake_maintenance_video',
+      videoUrl: 'https://youtu.be/cKpmBvfVYZg?si=f6MO_SHWy4N26CPn',
+      thumbnailUrl: 'https://img.youtube.com/vi/cKpmBvfVYZg/0.jpg',
     );
   }
 }

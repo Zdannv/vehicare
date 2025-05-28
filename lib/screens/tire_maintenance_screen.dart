@@ -74,7 +74,8 @@ class TireMaintenanceScreen extends StatelessWidget {
         'Jangan mencampur tipe ban yang berbeda pada satu mobil',
         'Perhatikan umur ban - bahkan ban dengan alur yang masih baik harus diganti setelah 5-6 tahun'
       ],
-      videoUrl: 'https://example.com/tire_maintenance_video',
+      videoUrl: 'https://youtu.be/-Fgid2WqFE8?si=KvpSc-RVQy4pBXud',
+      thumbnailUrl: 'https://img.youtube.com/vi/-Fgid2WqFE8/0.jpg',
     );
   }
 }

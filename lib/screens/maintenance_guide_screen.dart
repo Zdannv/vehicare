@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../widgets/video_section.dart';
 
 class MaintenanceGuideScreen extends StatelessWidget {
   final String title;
@@ -10,10 +11,11 @@ class MaintenanceGuideScreen extends StatelessWidget {
   final List<GuideSection> sections;
   final List<String>? tips;
   final List<String>? warnings;
-  final String? videoUrl;
+  final String videoUrl;
+  final String thumbnailUrl;
 
   const MaintenanceGuideScreen({
-    super.key,
+    Key? key,
     required this.title,
     required this.subtitle,
     required this.icon,
@@ -21,8 +23,9 @@ class MaintenanceGuideScreen extends StatelessWidget {
     required this.sections,
     this.tips,
     this.warnings,
-    this.videoUrl,
-  });
+    required this.videoUrl,
+    required this.thumbnailUrl,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -406,22 +409,43 @@ class MaintenanceGuideScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              height: 200,
+              height: 250,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Center(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.play_circle_fill,
-                    size: 64,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    // TODO: Implement video playback
-                  },
+              // child: Center(
+              //   child: IconButton(
+              //     icon: const Icon(
+              //       Icons.play_circle_fill,
+              //       size: 64,
+              //       color: Colors.white,
+              //     ),
+              //     onPressed: () async {
+              //       final Uri url = Uri.parse(videoUrl);
+              //       if (!await launchUrl(url,
+              //           mode: LaunchMode.externalApplication)) {
+              //         throw Exception('Could not launch video');
+              //       }
+              //     },
+              //   ),
+              // ),
+              child: GestureDetector(
+                onTap: () async {
+                  final Uri url = Uri.parse(videoUrl);
+                  if (!await launchUrl(url,
+                      mode: LaunchMode.externalApplication)) {
+                    throw Exception('Could not launch video');
+                  }
+                }, // When the thumbnail is tapped, launch the video
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.network(thumbnailUrl), // Display thumbnail image
+                    SizedBox(height: 10),
+                    Text('Tap to watch video', style: TextStyle(fontSize: 16)),
+                  ],
                 ),
               ),
             ),
