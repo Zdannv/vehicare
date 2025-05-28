@@ -74,7 +74,8 @@ class OilChangeScreen extends StatelessWidget {
         'Jangan memaksakan filter oli atau drain plug terlalu kencang - bisa merusak ulir',
         'Jangan mencampur jenis oli yang berbeda (mineral dengan sintetis)'
       ],
-      videoUrl: 'https://example.com/oil_change_video',
+      videoUrl: 'https://youtu.be/AdqHYfMJSi4?si=5weBqldnjMMj65Bm',
+      thumbnailUrl: 'https://img.youtube.com/vi/AdqHYfMJSi4/0.jpg',
     );
   }
 }

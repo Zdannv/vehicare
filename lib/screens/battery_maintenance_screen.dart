@@ -74,7 +74,8 @@ class BatteryMaintenanceScreen extends StatelessWidget {
         'Pakai sarung tangan dan kacamata saat menangani aki - elektrolit bersifat korosif',
         'Jangan mencoba membuka aki tertutup (maintenance-free) - berbahaya dan merusak aki'
       ],
-      videoUrl: 'https://example.com/battery_maintenance_video',
+      videoUrl: 'https://www.youtube.com/embed/V7EFAvFPOhw?si=XaaTmehAK6vmjXR1',
+      thumbnailUrl: 'https://img.youtube.com/vi/V7EFAvFPOhw/0.jpg',
     );
   }
 }
