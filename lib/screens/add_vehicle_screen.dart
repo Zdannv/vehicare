@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vehicare/providers/vehicle_provider.dart';
 import 'package:vehicare/models/vehicle.dart';
+import 'package:vehicare/screens/main_screen.dart';
 
 class AddVehicleScreen extends StatefulWidget {
   const AddVehicleScreen({super.key});
@@ -14,38 +15,29 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   final _formKey = GlobalKey<FormState>();
   String _selectedType = 'car';
   final _nameController = TextEditingController();
-  final _brandController = TextEditingController();
-  final _modelController = TextEditingController();
-  final _yearController = TextEditingController();
-  final _plateNumberController = TextEditingController();
-  final _imageUrlController = TextEditingController();
+  final _kilometerController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
-    _brandController.dispose();
-    _modelController.dispose();
-    _yearController.dispose();
-    _plateNumberController.dispose();
-    _imageUrlController.dispose();
+    _kilometerController.dispose();
     super.dispose();
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       final vehicle = Vehicle(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text,
         type: _selectedType,
-        brand: _brandController.text,
-        model: _modelController.text,
-        year: _yearController.text,
-        plateNumber: _plateNumberController.text,
-        imageUrl: _imageUrlController.text,
+        kilometer: _kilometerController.text,
       );
 
       context.read<VehicleProvider>().addVehicle(vehicle);
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
     }
   }
 
@@ -73,6 +65,9 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
+                      SizedBox(
+                        width: 300,
+                        child: 
                       SegmentedButton<String>(
                         segments: const [
                           ButtonSegment(
@@ -92,6 +87,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                             _selectedType = newSelection.first;
                           });
                         },
+                      ),
                       ),
                     ],
                   ),
@@ -113,81 +109,30 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _brandController,
+                controller: _kilometerController,
                 decoration: const InputDecoration(
-                  labelText: 'Merek',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Mohon masukkan merek kendaraan';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _modelController,
-                decoration: const InputDecoration(
-                  labelText: 'Model',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Mohon masukkan model kendaraan';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _yearController,
-                decoration: const InputDecoration(
-                  labelText: 'Tahun',
+                  labelText: 'Kilometer',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Mohon masukkan tahun kendaraan';
+                    return 'Mohon masukkan kilometer kendaraan';
                   }
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _plateNumberController,
-                decoration: const InputDecoration(
-                  labelText: 'Nomor Plat',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Mohon masukkan nomor plat kendaraan';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _imageUrlController,
-                decoration: const InputDecoration(
-                  labelText: 'URL Gambar (Opsional)',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 300),
               ElevatedButton(
-                onPressed: _submitForm,
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text('Tambah Kendaraan'),
-                ),
-              ),
+                  onPressed: _submitForm,
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text('Tambah Kendaraan'),
+                  )),
             ],
           ),
         ),
       ),
     );
   }
-} 
+}

@@ -3,6 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:async';
+import 'package:geocoding/geocoding.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class BengkelSearchScreen extends StatefulWidget {
   const BengkelSearchScreen({super.key});
@@ -156,6 +159,7 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
         );
       });
     }
+    await _fetchNearbyWorkshops();
   }
 
   Future<void> _loadNearbyBengkel() async {
@@ -554,6 +558,11 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
         children: [
           TextField(
             controller: _searchController,
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                _searchAndMoveCamera(value);
+              }
+            },
             decoration: InputDecoration(
               hintText: 'Cari bengkel...',
               prefixIcon: const Icon(Icons.search),
@@ -638,27 +647,26 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
       body: Stack(
         children: [
           _isListView
-          ? ListView.builder(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 140,
-                bottom: 16,
-              ),
-              itemCount: filteredBengkel.length,
-              itemBuilder: (context, index) =>
-                  _buildBengkelListItem(filteredBengkel[index]),
-            )
-          :
-            GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition: _jakarta,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              myLocationEnabled: true,
-              myLocationButtonEnabled: false,
-              markers: _getFilteredMarkers(filteredBengkel),
-              zoomControlsEnabled: false,
-            ),
+              ? ListView.builder(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + 140,
+                    bottom: 16,
+                  ),
+                  itemCount: filteredBengkel.length,
+                  itemBuilder: (context, index) =>
+                      _buildBengkelListItem(filteredBengkel[index]),
+                )
+              : GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: _jakarta,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  markers: _markers,
+                  zoomControlsEnabled: false,
+                ),
           SafeArea(
             child: Column(
               children: [
@@ -709,4 +717,61 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
       );
     }).toSet();
   }
+
+  Future<void> _searchAndMoveCamera(String query) async {
+    try {
+      List<Location> locations = await locationFromAddress(query);
+      if (locations.isNotEmpty) {
+        final loc = locations.first;
+        final GoogleMapController controller = await _controller.future;
+        controller.animateCamera(
+          CameraUpdate.newLatLngZoom(LatLng(loc.latitude, loc.longitude), 14),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Lokasi tidak ditemukan')),
+        );
+      }
+    } catch (e) {
+      print('Error mencari lokasi: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal mencari lokasi')),
+      );
+    }
+  }
+
+  Future<void> _fetchNearbyWorkshops() async {
+  if (_currentPosition == null) return;
+
+  // Contoh lokasi bengkel dummy di sekitar posisi user
+  List<Map<String, dynamic>> dummyWorkshops = [
+    {
+      'name': 'Bengkel Sinar Motor',
+      'lat': _currentPosition!.latitude + 0.001,
+      'lng': _currentPosition!.longitude + 0.001,
+    },
+    {
+      'name': 'Bengkel Amanah',
+      'lat': _currentPosition!.latitude - 0.0015,
+      'lng': _currentPosition!.longitude + 0.0005,
+    },
+    {
+      'name': 'Bengkel Jaya Abadi',
+      'lat': _currentPosition!.latitude + 0.002,
+      'lng': _currentPosition!.longitude - 0.001,
+    },
+  ];
+
+  setState(() {
+    for (var workshop in dummyWorkshops) {
+      _markers.add(Marker(
+        markerId: MarkerId(workshop['name']),
+        position: LatLng(workshop['lat'], workshop['lng']),
+        infoWindow: InfoWindow(title: workshop['name']),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      ));
+    }
+  });
+}
+  
 }

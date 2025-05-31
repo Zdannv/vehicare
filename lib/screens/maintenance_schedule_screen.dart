@@ -133,14 +133,14 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
               ),
             ),
             DefaultTabController(
-              length: 3,
+              length: 2,
               child: Column(
                 children: [
                   TabBar(
                     tabs: const [
                       Tab(text: 'Mendatang'),
                       Tab(text: 'Riwayat'),
-                      Tab(text: 'Tips'),
+                      //Tab(text: 'Tips'),
                     ],
                     labelColor: Theme.of(context).primaryColor,
                     unselectedLabelColor: Colors.grey,
@@ -278,9 +278,9 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                               },
                             );
                           },
-                        ),
+                        )
                         // Tab Tips Perawatan
-                        ListView.builder(
+                        /*ListView.builder(
                           padding: const EdgeInsets.all(16),
                           itemCount: defaultRecommendations.length,
                           itemBuilder: (context, index) {
@@ -346,7 +346,7 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                               ),
                             );
                           },
-                        ),
+                        ),*/
                       ],
                     ),
                   ),

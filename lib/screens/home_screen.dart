@@ -8,6 +8,7 @@ import 'package:vehicare/screens/workshop_search_screen.dart' as workshop;
 import 'package:vehicare/screens/maintenance_schedule_screen.dart';
 import 'package:vehicare/screens/emergency_screen.dart';
 import 'package:vehicare/screens/tips_and_guides_screen.dart';
+import 'package:vehicare/screens/tips_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -176,7 +177,7 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const TipsAndGuidesScreen(),
+                                    builder: (context) => const TipsScreen(),
                                   ),
                                 );
                               },
