@@ -5,8 +5,15 @@ import 'package:vehicare/providers/vehicle_provider.dart';
 import 'package:vehicare/screens/splash_screen.dart';
 import 'providers/maintenance_provider.dart';
 import 'screens/maintenance_schedule_screen.dart';
+import 'services/notification_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize notification service
+  final notificationService = NotificationService();
+  await notificationService.initialize();
+  
   runApp(const MyApp());
 }
 

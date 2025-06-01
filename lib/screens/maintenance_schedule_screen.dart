@@ -67,7 +67,7 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
             child: const Text('Batal'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (_selectedServiceType != null && _selectedDay != null) {
                 final schedule = MaintenanceSchedule(
                   id: DateTime.now().toString(),
@@ -76,8 +76,10 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                   scheduledDate: _selectedDay!,
                   notes: _notesController.text,
                 );
-                context.read<MaintenanceProvider>().addSchedule(schedule);
-                Navigator.pop(context);
+                await context.read<MaintenanceProvider>().addSchedule(schedule);
+                if (mounted) {
+                  Navigator.pop(context);
+                }
               }
             },
             child: const Text('Tambah'),
@@ -363,4 +365,4 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
       ),
     );
   }
-}
+} 
