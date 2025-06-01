@@ -8,7 +8,8 @@ class MaintenanceScheduleScreen extends StatefulWidget {
   const MaintenanceScheduleScreen({Key? key}) : super(key: key);
 
   @override
-  _MaintenanceScheduleScreenState createState() => _MaintenanceScheduleScreenState();
+  _MaintenanceScheduleScreenState createState() =>
+      _MaintenanceScheduleScreenState();
 }
 
 class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
@@ -95,36 +96,34 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Card(
-                  margin: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Card(
+              margin: const EdgeInsets.all(16),
               elevation: 4,
-                  child: TableCalendar(
+              child: TableCalendar(
                 firstDay: DateTime.utc(2020, 1, 1),
                 lastDay: DateTime.utc(2030, 12, 31),
-                    focusedDay: _focusedDay,
+                focusedDay: _focusedDay,
                 calendarFormat: CalendarFormat.month,
-                availableCalendarFormats: const {
-                  CalendarFormat.month: 'Bulan'
+                availableCalendarFormats: const {CalendarFormat.month: 'Bulan'},
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
                 },
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                    calendarStyle: CalendarStyle(
-                      selectedDecoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        shape: BoxShape.circle,
-                      ),
-                      todayDecoration: BoxDecoration(
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+                },
+                calendarStyle: CalendarStyle(
+                  selectedDecoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  todayDecoration: BoxDecoration(
                     color: Theme.of(context).primaryColor.withOpacity(0.5),
-                        shape: BoxShape.circle,
+                    shape: BoxShape.circle,
                   ),
                 ),
                 headerStyle: const HeaderStyle(
@@ -165,19 +164,24 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                               itemCount: schedules.length,
                               itemBuilder: (context, index) {
                                 final schedule = schedules[index];
-                                final daysUntil = schedule.scheduledDate.difference(DateTime.now()).inDays;
+                                final daysUntil = schedule.scheduledDate
+                                    .difference(DateTime.now())
+                                    .inDays;
                                 return Card(
                                   margin: const EdgeInsets.only(bottom: 16),
                                   child: ListTile(
                                     leading: CircleAvatar(
-                                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                                      backgroundColor: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1),
                                       child: Text(schedule.serviceType[0]),
                                     ),
                                     title: Text(schedule.serviceType),
                                     subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
                                           'Dijadwalkan: ${schedule.scheduledDate.day}/${schedule.scheduledDate.month}/${schedule.scheduledDate.year}',
                                         ),
                                         if (daysUntil <= 7)
@@ -185,11 +189,13 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                             daysUntil <= 0
                                                 ? 'Hari ini!'
                                                 : 'Dalam $daysUntil hari',
-                        style: TextStyle(
-                                              color: daysUntil <= 3 ? Colors.red : Colors.orange,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                                            style: TextStyle(
+                                              color: daysUntil <= 3
+                                                  ? Colors.red
+                                                  : Colors.orange,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         if (schedule.notes.isNotEmpty)
                                           Text(
                                             'Catatan: ${schedule.notes}',
@@ -204,20 +210,23 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.check_circle_outline),
+                                          icon: const Icon(
+                                              Icons.check_circle_outline),
                                           onPressed: () {
-                                            provider.completeSchedule(schedule.id);
+                                            provider
+                                                .completeSchedule(schedule.id);
                                           },
                                         ),
                                         IconButton(
                                           icon: const Icon(Icons.delete),
                                           onPressed: () {
-                                            provider.deleteSchedule(schedule.id);
+                                            provider
+                                                .deleteSchedule(schedule.id);
                                           },
                                         ),
-                    ],
-                  ),
-                ),
+                                      ],
+                                    ),
+                                  ),
                                 );
                               },
                             );
@@ -226,7 +235,8 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                         // Tab Riwayat
                         Consumer<MaintenanceProvider>(
                           builder: (context, provider, child) {
-                            final completedSchedules = provider.completedSchedules;
+                            final completedSchedules =
+                                provider.completedSchedules;
                             if (completedSchedules.isEmpty) {
                               return const Center(
                                 child: Text('Belum ada riwayat perawatan'),
@@ -242,25 +252,27 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                   child: ListTile(
                                     leading: const CircleAvatar(
                                       backgroundColor: Colors.green,
-                                      child: Icon(Icons.check, color: Colors.white),
+                                      child: Icon(Icons.check,
+                                          color: Colors.white),
                                     ),
                                     title: Text(schedule.serviceType),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
                                         Text(
                                           'Selesai: ${schedule.completedDate?.day}/${schedule.completedDate?.month}/${schedule.completedDate?.year}',
                                         ),
                                         if (schedule.notes.isNotEmpty)
-                          Text(
+                                          Text(
                                             'Catatan: ${schedule.notes}',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
+                                            style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
@@ -272,7 +284,8 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                           padding: const EdgeInsets.all(16),
                           itemCount: defaultRecommendations.length,
                           itemBuilder: (context, index) {
-                            final recommendation = defaultRecommendations[index];
+                            final recommendation =
+                                defaultRecommendations[index];
                             return Card(
                               margin: const EdgeInsets.only(bottom: 16),
                               child: ExpansionTile(
@@ -282,7 +295,8 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                 ),
                                 title: Text(
                                   recommendation.serviceType,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Text(
                                   'Setiap ${recommendation.recommendedInterval ~/ 30} bulan',
@@ -291,7 +305,8 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                   Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           recommendation.description,
@@ -300,9 +315,10 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                         const SizedBox(height: 8),
                                         Container(
                                           padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Colors.blue.withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(8),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Row(
                                             children: [
@@ -312,14 +328,14 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                                               ),
                                               const SizedBox(width: 8),
                                               Expanded(
-                        child: Text(
+                                                child: Text(
                                                   recommendation.tips,
                                                   style: const TextStyle(
                                                     fontSize: 13,
                                                     color: Colors.black87,
-                          ),
-                        ),
-                      ),
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -334,10 +350,10 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
                       ],
                     ),
                   ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -347,4 +363,5 @@ class _MaintenanceScheduleScreenState extends State<MaintenanceScheduleScreen> {
       ),
     );
   }
+} 
 } 
