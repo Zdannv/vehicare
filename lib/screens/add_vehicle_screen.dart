@@ -16,11 +16,13 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   String _selectedType = 'car';
   final _nameController = TextEditingController();
   final _kilometerController = TextEditingController();
+  final _yearController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
     _kilometerController.dispose();
+    _yearController.dispose();
     super.dispose();
   }
 
@@ -31,6 +33,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
         name: _nameController.text,
         type: _selectedType,
         kilometer: _kilometerController.text,
+        year: _yearController.text,
       );
 
       context.read<VehicleProvider>().addVehicle(vehicle);
@@ -112,7 +115,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
               TextFormField(
                 controller: _kilometerController,
                 decoration: const InputDecoration(
-                  labelText: 'Kilometer',
+                  labelText: 'Kilometer Kendaraan',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
@@ -123,7 +126,22 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 300),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _yearController,
+                decoration: const InputDecoration(
+                  labelText: 'Tahun Kendaraan',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Mohon masukkan tahun kendaraan';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 230),
               ElevatedButton(
                   onPressed: _submitForm,
                   child: const Padding(
