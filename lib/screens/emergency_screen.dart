@@ -21,6 +21,7 @@ class EmergencyScreen extends StatelessWidget {
             backgroundColor: Colors.red,
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
               title: const Text('Layanan Darurat'),
               background: Stack(
                 fit: StackFit.expand,
@@ -190,7 +191,7 @@ class EmergencyScreen extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 1.6,
+        childAspectRatio: 1.4,
       ),
       itemCount: contacts.length,
       itemBuilder: (context, index) {
@@ -279,7 +280,7 @@ class EmergencyScreen extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 1.6,
+        childAspectRatio: 1.4,
       ),
       itemCount: services.length,
       itemBuilder: (context, index) {

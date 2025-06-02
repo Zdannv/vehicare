@@ -34,10 +34,11 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
       );
 
       context.read<VehicleProvider>().addVehicle(vehicle);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+      Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const MainScreen()),
+      (Route<dynamic> route) => false,
+    );
     }
   }
 
