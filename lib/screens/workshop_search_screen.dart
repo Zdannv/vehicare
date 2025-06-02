@@ -760,6 +760,51 @@ class _BengkelSearchScreenState extends State<BengkelSearchScreen> {
       'lat': _currentPosition!.latitude + 0.002,
       'lng': _currentPosition!.longitude - 0.001,
     },
+    {
+      'name': 'Bengkel Sinar Motor2',
+      'lat': _currentPosition!.latitude + 0.01,
+      'lng': _currentPosition!.longitude + 0.051,
+    },
+    {
+      'name': 'Bengkel Amanah2',
+      'lat': _currentPosition!.latitude - 0.15,
+      'lng': _currentPosition!.longitude + 0.023,
+    },
+    {
+      'name': 'Bengkel Jaya Abadi2',
+      'lat': _currentPosition!.latitude + 0.012,
+      'lng': _currentPosition!.longitude - 0.01,
+    },
+    {
+      'name': 'Bengkel Sinar Motor3',
+      'lat': _currentPosition!.latitude + 0.045,
+      'lng': _currentPosition!.longitude + 0.1,
+    },
+    {
+      'name': 'Bengkel Amanah3',
+      'lat': _currentPosition!.latitude + 0.15,
+      'lng': _currentPosition!.longitude + 0.005,
+    },
+    {
+      'name': 'Bengkel Jaya Abadi3',
+      'lat': _currentPosition!.latitude + 0.25,
+      'lng': _currentPosition!.longitude + 0.07,
+    },
+    {
+      'name': 'Bengkel Sinar Motor4',
+      'lat': _currentPosition!.latitude - 0.095,
+      'lng': _currentPosition!.longitude + 0.087,
+    },
+    {
+      'name': 'Bengkel Amanah4',
+      'lat': _currentPosition!.latitude + 0.0215,
+      'lng': _currentPosition!.longitude - 0.205,
+    },
+    {
+      'name': 'Bengkel Jaya Abadi4',
+      'lat': _currentPosition!.latitude - 0.072,
+      'lng': _currentPosition!.longitude - 0.801,
+    },
   ];
 
   setState(() {
