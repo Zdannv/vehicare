@@ -6,6 +6,10 @@ class MaintenanceSchedule {
   final String notes;
   final bool isCompleted;
   final DateTime? completedDate;
+  final double? kmAtService; // Odometer reading when service was completed
+  final int? intervalKm; // Service interval in kilometers
+  final int? intervalDays; // Service interval in days
+  final bool autoTrackingEnabled;
 
   MaintenanceSchedule({
     required this.id,
@@ -15,6 +19,10 @@ class MaintenanceSchedule {
     this.notes = '',
     this.isCompleted = false,
     this.completedDate,
+    this.kmAtService,
+    this.intervalKm,
+    this.intervalDays,
+    this.autoTrackingEnabled = false,
   });
 
   MaintenanceSchedule copyWith({
@@ -25,6 +33,10 @@ class MaintenanceSchedule {
     String? notes,
     bool? isCompleted,
     DateTime? completedDate,
+    double? kmAtService,
+    int? intervalKm,
+    int? intervalDays,
+    bool? autoTrackingEnabled,
   }) {
     return MaintenanceSchedule(
       id: id ?? this.id,
@@ -34,6 +46,10 @@ class MaintenanceSchedule {
       notes: notes ?? this.notes,
       isCompleted: isCompleted ?? this.isCompleted,
       completedDate: completedDate ?? this.completedDate,
+      kmAtService: kmAtService ?? this.kmAtService,
+      intervalKm: intervalKm ?? this.intervalKm,
+      intervalDays: intervalDays ?? this.intervalDays,
+      autoTrackingEnabled: autoTrackingEnabled ?? this.autoTrackingEnabled,
     );
   }
 }
@@ -63,7 +79,8 @@ final List<MaintenanceRecommendation> defaultRecommendations = [
     recommendedInterval: 60, // 2 bulan
     description: 'Penggantian oli mesin untuk menjaga performa',
     importanceLevel: 'high',
-    tips: 'Gunakan oli yang sesuai dengan spesifikasi kendaraan Anda. Oli yang berkualitas dapat melindungi mesin lebih baik dan bertahan lebih lama.',
+    tips:
+        'Gunakan oli yang sesuai dengan spesifikasi kendaraan Anda. Oli yang berkualitas dapat melindungi mesin lebih baik dan bertahan lebih lama.',
     icon: '🔧',
   ),
   MaintenanceRecommendation(
@@ -71,7 +88,8 @@ final List<MaintenanceRecommendation> defaultRecommendations = [
     recommendedInterval: 90, // 3 bulan
     description: 'Periksa dan ganti kampas rem untuk keamanan',
     importanceLevel: 'high',
-    tips: 'Perhatikan suara decit saat pengereman dan pastikan rem bekerja dengan responsif. Keselamatan adalah prioritas utama!',
+    tips:
+        'Perhatikan suara decit saat pengereman dan pastikan rem bekerja dengan responsif. Keselamatan adalah prioritas utama!',
     icon: '🛑',
   ),
   MaintenanceRecommendation(
@@ -79,7 +97,8 @@ final List<MaintenanceRecommendation> defaultRecommendations = [
     recommendedInterval: 90, // 3 bulan
     description: 'Rotasi ban untuk memastikan keausan yang merata',
     importanceLevel: 'medium',
-    tips: 'Rotasi ban secara teratur membantu ban aus secara merata dan memperpanjang umur ban. Periksa juga tekanan ban setiap 2 minggu.',
+    tips:
+        'Rotasi ban secara teratur membantu ban aus secara merata dan memperpanjang umur ban. Periksa juga tekanan ban setiap 2 minggu.',
     icon: '🚗',
   ),
   MaintenanceRecommendation(
@@ -87,7 +106,8 @@ final List<MaintenanceRecommendation> defaultRecommendations = [
     recommendedInterval: 90, // 3 bulan
     description: 'Ganti filter udara untuk performa mesin yang lebih baik',
     importanceLevel: 'medium',
-    tips: 'Filter udara yang kotor dapat mengurangi efisiensi bahan bakar hingga 10%. Bersihkan atau ganti secara rutin untuk performa optimal.',
+    tips:
+        'Filter udara yang kotor dapat mengurangi efisiensi bahan bakar hingga 10%. Bersihkan atau ganti secara rutin untuk performa optimal.',
     icon: '💨',
   ),
   MaintenanceRecommendation(
@@ -95,7 +115,8 @@ final List<MaintenanceRecommendation> defaultRecommendations = [
     recommendedInterval: 180, // 6 bulan
     description: 'Periksa dan isi ulang cairan pendingin',
     importanceLevel: 'medium',
-    tips: 'Jangan buka tutup radiator saat mesin masih panas! Tunggu minimal 30 menit setelah mesin dimatikan untuk menghindari luka bakar.',
+    tips:
+        'Jangan buka tutup radiator saat mesin masih panas! Tunggu minimal 30 menit setelah mesin dimatikan untuk menghindari luka bakar.',
     icon: '🌡️',
   ),
   MaintenanceRecommendation(
@@ -103,7 +124,8 @@ final List<MaintenanceRecommendation> defaultRecommendations = [
     recommendedInterval: 180, // 6 bulan
     description: 'Periksa kondisi aki dan sambungan',
     importanceLevel: 'medium',
-    tips: 'Bersihkan terminal aki dari korosi dan pastikan sambungan kencang. Aki yang terawat dapat bertahan hingga 3-5 tahun.',
+    tips:
+        'Bersihkan terminal aki dari korosi dan pastikan sambungan kencang. Aki yang terawat dapat bertahan hingga 3-5 tahun.',
     icon: '⚡',
   ),
-]; 
+];
